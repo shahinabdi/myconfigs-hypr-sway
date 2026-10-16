@@ -18,6 +18,7 @@
 !/xsettingsd/
 !/pavucontrol.ini
 !/starship/
+!/hypr/
 
 # VS Code has useful user preferences mixed with machine-specific state.
 !/Code/
