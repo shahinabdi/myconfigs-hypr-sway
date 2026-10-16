@@ -1,0 +1,117 @@
+/* ~/.config/waybar/style.css
+ * Dark, minimal, opaque — steel-blue accents.
+ *
+ * NOTE: GTK3's CSS engine does not implement `backdrop-filter` — and unlike
+ * most unknown properties, this one is a hard parse error that crashes
+ * waybar on startup (exit code 1), not a harmless no-op. Do not add it back.
+ * The bar is fully opaque; SwayFX blur is disabled for a solid theme look.
+ */
+
+* {
+    font-family: "JetBrainsMono Nerd Font Mono", sans-serif;
+    font-size: 16px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: #0b111a;
+}
+
+#waybar {
+    background: #0b111a;
+    border: 1px solid #273344;
+    color: #d6deea;
+}
+
+/* modules-left, center, right containers */
+#workspaces,
+#mode,
+#clock,
+#cpu,
+#memory,
+#battery,
+#network,
+#pulseaudio,
+#tray,
+#custom-power {
+    margin: 5px 2px;
+    padding: 0 12px;
+}
+
+#workspaces {
+    margin-left: 12px;
+    padding: 0 4px;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    margin: 0 2px;
+    color: #7d90ab;
+    background: transparent;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+#workspaces button.focused {
+    color: #1a1b26;
+    background-color: #69a7ff;
+}
+
+#workspaces button.urgent {
+    color: #0b111a;
+    background-color: #e6a567;
+}
+
+#workspaces button:hover {
+    background-color: rgba(105, 167, 255, 0.15);
+    color: #d6deea;
+}
+
+#mode {
+    background-color: rgba(230, 165, 103, 0.15);
+    color: #e6a567;
+}
+
+#clock {
+    color: #a9c9f5;
+    font-weight: 600;
+}
+
+#cpu, #memory, #battery, #network, #pulseaudio {
+    color: #d6deea;
+}
+
+#battery.warning {
+    color: #e6a567;
+}
+
+#battery.critical {
+    color: #e57373;
+}
+
+#tray {
+    margin-right: 6px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#custom-power {
+    margin-right: 12px;
+    padding: 0 12px;
+    color: #e6a567;
+    transition: background-color 0.15s ease;
+}
+
+#custom-power:hover {
+    background-color: rgba(230, 165, 103, 0.15);
+}
+
+tooltip {
+    background-color: rgba(18, 26, 38, 0.96);
+    border: 1px solid #273344;
+}
+
+tooltip label {
+    color: #d6deea;
+}

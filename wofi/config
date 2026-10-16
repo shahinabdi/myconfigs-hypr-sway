@@ -1,0 +1,18 @@
+# ~/.config/wofi/config
+# Minimal drun launcher — sizing/behavior only, look lives in style.css.
+
+width=560
+height=400
+location=center
+show=drun
+allow_images=true
+image_size=32
+gtk_dark=true
+insensitive=true
+prompt=Search
+filter_rate=100
+allow_markup=true
+no_actions=true
+term=alacritty
+hide_scroll=true
+dynamic_lines=true

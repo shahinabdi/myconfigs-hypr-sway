@@ -1,0 +1,225 @@
+### ~/.config/sway/config
+### Minimal, dark, solid Sway setup — swayfx-fedora inspired (no blur, theme colors only).
+###
+### REQUIRES SwayFX (not vanilla sway) for: corner_radius, shadows.
+### SwayFX is a drop-in fork of sway — same config syntax, same binary name.
+###   yay -S swayfx
+### Vanilla sway will fail to parse the "blur" / "corner_radius" / "shadow" lines below.
+### If you truly want vanilla sway, delete the block marked [SWAYFX ONLY].
+###
+### Install (Arch/CachyOS):
+###   sudo pacman -S waybar wofi alacritty wl-clipboard xdg-desktop-portal-wlr \
+###                   xdg-desktop-portal xorg-xwayland grim slurp swappy swaylock-effects swayidle \
+###                   brightnessctl playerctl pipewire pipewire-pulse wireplumber \
+###                   polkit-gnome jq starship
+###   yay -S swayfx awww mako
+
+# ─────────────────────────────────────────────
+# Variables
+# ─────────────────────────────────────────────
+set $mod        Mod4
+set $term       alacritty
+set $menu       ~/.config/sway/scripts/menu.sh
+set $lock       ~/.config/sway/scripts/lock.sh
+set $power      ~/.config/sway/scripts/powermenu.sh
+set $screenshot ~/.config/sway/scripts/screenshot.sh
+
+# ─────────────────────────────────────────────
+# Autostart — wallpaper, bar, notifications, portals
+# ─────────────────────────────────────────────
+exec awww-daemon
+exec_always ~/.config/awww/wallpaper.sh
+exec waybar
+exec mako
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+# xdg-desktop-portal-wlr is picked up automatically by the portal service, no exec needed
+
+# ─────────────────────────────────────────────
+# Output — set your real output name via `swaymsg -t get_outputs`
+# ─────────────────────────────────────────────
+output * bg ~/Pictures/Wallpapers/current.jpg fill
+output * scale 1
+
+# ─────────────────────────────────────────────
+# Idle / lock
+# ─────────────────────────────────────────────
+exec swayidle -w \
+    timeout 300 "$lock" \
+    timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+    before-sleep "$lock"
+
+# ─────────────────────────────────────────────
+# Input
+# ─────────────────────────────────────────────
+input "type:keyboard" {
+    xkb_layout fr
+    repeat_delay 250
+    repeat_rate 40
+}
+
+input "type:touchpad" {
+    tap enabled
+    natural_scroll enabled
+    dwt enabled
+    scroll_factor 0.5
+}
+
+# ─────────────────────────────────────────────
+# Appearance — dark navy palette, steel-blue accent
+# ─────────────────────────────────────────────
+font pango:JetBrainsMono Nerd Font Mono 10
+
+# class                 border    bg       text     indicator  child_border
+client.focused           #69a7ff  #121a26  #d6deea  #69a7ff    #69a7ff
+client.focused_inactive  #273344  #121a26  #d6deea  #273344    #273344
+client.unfocused         #0b111a  #0b111a  #7d90ab  #0b111a    #0b111a
+client.urgent             #e6a567  #121a26  #e6a567  #e6a567    #e6a567
+
+default_border pixel 1
+default_floating_border pixel 0
+smart_borders off
+
+gaps inner 10
+gaps outer 5
+smart_gaps on
+
+# [SWAYFX ONLY] — soft rounded corners + subtle shadow, no blur (solid theme colors)
+corner_radius 2
+blur disable
+blur_xray disable
+blur_passes 2
+blur_radius 3
+shadows enable
+shadows_on_csd disable
+shadow_blur_radius 12
+shadow_color #00000066
+
+# ─────────────────────────────────────────────
+# Keybindings
+# ─────────────────────────────────────────────
+floating_modifier $mod normal
+
+# core
+bindsym $mod+Return    exec $term
+bindsym $mod+d         exec $menu
+bindsym $mod+q         kill
+bindsym $mod+shift+c   reload
+bindsym $mod+shift+e   exec $power
+bindsym $mod+shift+x   exec $lock
+
+# focus
+bindsym $mod+Left      focus left
+bindsym $mod+Down      focus down
+bindsym $mod+Up        focus up
+bindsym $mod+Right     focus right
+bindsym $mod+h         focus left
+bindsym $mod+j         focus down
+bindsym $mod+k         focus up
+bindsym $mod+l         focus right
+bindsym $mod+Tab       focus next
+
+# move
+bindsym $mod+shift+Left   move left
+bindsym $mod+shift+Down   move down
+bindsym $mod+shift+Up     move up
+bindsym $mod+shift+Right  move right
+bindsym $mod+shift+h      move left
+bindsym $mod+shift+j      move down
+bindsym $mod+shift+k      move up
+bindsym $mod+shift+l      move right
+
+# layout — smart, minimal set
+bindsym $mod+s          layout stacking
+bindsym $mod+w          layout tabbed
+bindsym $mod+e          layout toggle split
+bindsym $mod+f          fullscreen
+bindsym $mod+shift+space floating toggle
+bindsym $mod+space      focus mode_toggle
+
+# workspaces
+# AZERTY note: the unshifted top-row keys produce symbols, not digits
+# (& é " ' ( - è _ ç à for keys 1-0), so we bind to those keysyms directly.
+bindsym $mod+ampersand   workspace number 1
+bindsym $mod+eacute      workspace number 2
+bindsym $mod+quotedbl    workspace number 3
+bindsym $mod+apostrophe  workspace number 4
+bindsym $mod+parenleft   workspace number 5
+bindsym $mod+minus       workspace number 6
+bindsym $mod+egrave      workspace number 7
+bindsym $mod+underscore  workspace number 8
+bindsym $mod+ccedilla    workspace number 9
+bindsym $mod+agrave      workspace number 10
+
+# Move to workspace + follow. Uses Ctrl instead of Shift: sway's keysym
+# matching is dynamic, and holding Shift on these keys produces the digit
+# (1-0), not the symbol (& é " ...), so "$mod+shift+ampersand" could never
+# match. Ctrl doesn't change the key's shift-level, so the symbol keysym
+# stays stable and this reliably hits the same physical key as above.
+bindsym $mod+shift+ampersand   move container to workspace number 1; workspace number 1
+bindsym $mod+shift+eacute      move container to workspace number 2; workspace number 2
+bindsym $mod+shift+quotedbl    move container to workspace number 3; workspace number 3
+bindsym $mod+shift+apostrophe  move container to workspace number 4; workspace number 4
+bindsym $mod+shift+parenleft   move container to workspace number 5; workspace number 5
+bindsym $mod+shift+minus       move container to workspace number 6; workspace number 6
+bindsym $mod+shift+egrave      move container to workspace number 7; workspace number 7
+bindsym $mod+shift+underscore  move container to workspace number 8; workspace number 8
+bindsym $mod+shift+ccedilla    move container to workspace number 9; workspace number 9
+bindsym $mod+shift+agrave      move container to workspace number 10; workspace number 10
+
+workspace_auto_back_and_forth yes
+
+# floating windows — mouse: hold $mod and drag to move, $mod + right-drag to
+# resize (floating_modifier above). Keyboard: direct resize without entering
+# the resize mode; works on the focused window, floating or tiled.
+bindsym $mod+ctrl+Left   resize shrink width 20px
+bindsym $mod+ctrl+Down   resize grow height 20px
+bindsym $mod+ctrl+Up     resize shrink height 20px
+bindsym $mod+ctrl+Right  resize grow width 20px
+bindsym $mod+ctrl+c      move position center
+
+# resize mode (also works on floating windows)
+mode "resize" {
+    bindsym Left  resize shrink width 20px
+    bindsym Down  resize grow height 20px
+    bindsym Up    resize shrink height 20px
+    bindsym Right resize grow width 20px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# screenshots
+bindsym Print          exec $screenshot output
+bindsym $mod+Print      exec $screenshot region
+bindsym $mod+shift+Print exec $screenshot window
+# Windows-style Win+Shift+S snip: select region, annotate/copy/save in swappy
+bindsym $mod+shift+s   exec $screenshot snip
+
+# media / volume / brightness
+bindsym XF86AudioRaiseVolume  exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume  exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute         exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute      exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym XF86MonBrightnessUp   exec brightnessctl set 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86AudioPlay         exec playerctl play-pause
+bindsym XF86AudioNext         exec playerctl next
+bindsym XF86AudioPrev         exec playerctl previous
+
+# ─────────────────────────────────────────────
+# Window rules — smart layout, floating for utility windows
+# ─────────────────────────────────────────────
+for_window [app_id="wofi"]        floating enable
+for_window [app_id="pavucontrol"] floating enable, resize set 500 400
+for_window [app_id="Alacritty" title="floaterm"] floating enable, resize set 900 600
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="dialog"] floating enable
+for_window [window_type="dialog"] floating enable
+
+# don't idle/lock while media is fullscreen (e.g. video players)
+for_window [app_id=".*"] inhibit_idle fullscreen
+
+include /etc/sway/config.d/*

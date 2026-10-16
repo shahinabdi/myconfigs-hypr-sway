@@ -1,0 +1,83 @@
+{
+    // THEME & ICONS
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "workbench.iconTheme": "a-file-icon-vscode",
+    "workbench.productIconTheme": "material-product-icons",
+
+    // EDITOR FONT
+    "editor.fontFamily": "JetBrainsMono Nerd Font Mono",
+    "editor.fontLigatures": true,
+    "editor.fontWeight": "600",
+    "editor.lineHeight": 1.45,
+
+    // EDITOR LOOK & FEEL
+    "editor.smoothScrolling": true,
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.cursorBlinking": "smooth",
+    "editor.renderWhitespace": "none",
+    "editor.renderControlCharacters": false,
+    "editor.guides.indentation": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+
+    // UI POLISH
+    "window.titleBarStyle": "custom",
+    "workbench.activityBar.location": "top",
+    "workbench.layoutControl.enabled": false,
+    "workbench.statusBar.visible": true,
+    "explorer.compactFolders": false,
+
+    "json.schemaDownload.enable": false,
+
+    // TERMINAL
+    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
+    "terminal.integrated.fontWeight": "600",
+    "terminal.integrated.fontSize": 15,
+    "terminal.integrated.smoothScrolling": true,
+    "terminal.integrated.cursorStyle": "underline",
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "args": [
+                "-l"
+            ],
+            "icon": "terminal-bash"
+        }
+    },
+    "git.autofetch": true,
+    "remote.SSH.remotePlatform": {
+        "Debian": "linux",
+        "65.21.1.227": "linux"
+    },
+    "claudeCode.preferredLocation": "panel",
+    "chat.tools.urls.autoApprove": {
+        "https://code.visualstudio.com": true,
+        "https://github.com/microsoft/vscode/wiki/*": true,
+        "https://github.com/willpower3309/swayfx/wiki/configuration": {
+            "approveRequest": false,
+            "approveResponse": true
+        }
+    },
+    "editor.fontSize": 18,
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
+    "editor.minimap.enabled": false,
+    "chat.tools.terminal.autoApprove": {
+        "/^Get-ChildItem -Force \\| Select-Object Name; cargo --version$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^New-Item -ItemType Directory -Path c:\\\\Users\\\\Shahin\\\\dev\\\\Rust\\\\examples \\| Out-Null; \"ok\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^winget install --id Rustlang\\.Rustup -e --accept-package-agreements --accept-source-agreements 2>&1 \\| Select-Object -Last 15$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

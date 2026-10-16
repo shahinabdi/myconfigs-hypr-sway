@@ -1,0 +1,40 @@
+# Keep only configuration files and scripts worth restoring.
+/*
+!/.gitignore
+
+!/alacritty/
+!/autostart/
+!/awww/
+!/gtk-3.0/
+!/gtk-4.0/
+!/htop/
+!/mako/
+!/nwg-look/
+!/sway/
+!/Thunar/
+!/waybar/
+!/wofi/
+!/xfce4/
+!/xsettingsd/
+!/pavucontrol.ini
+!/starship/
+
+# VS Code has useful user preferences mixed with machine-specific state.
+!/Code/
+/Code/**
+!/Code/User/
+/Code/User/**
+!/Code/User/settings.json
+!/Code/User/keybindings.json
+!/Code/User/snippets/
+!/Code/User/snippets/**
+
+# Micro ships many syntax definitions; retain preferences and color schemes only.
+!/micro/
+/micro/**
+!/micro/settings.json
+!/micro/colorschemes/
+!/micro/colorschemes/catppuccin-frappe.micro
+!/micro/colorschemes/catppuccin-latte.micro
+!/micro/colorschemes/catppuccin-macchiato.micro
+!/micro/colorschemes/catppuccin-mocha.micro
