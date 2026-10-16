@@ -9,7 +9,7 @@
 
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["clock"],
-    "modules-right": ["pulseaudio", "network", "memory", "cpu", "battery", "tray", "custom/power"],
+    "modules-right": ["pulseaudio", "network", "custom/bluetooth", "memory", "cpu", "battery", "tray", "custom/power"],
 
     "sway/workspaces": {
         "disable-scroll": true,
@@ -56,7 +56,17 @@
         "format-ethernet": "󰈀 Wired",
         "format-disconnected": "󰖪 Offline",
         "tooltip-format": "{ifname} via {gwaddr}",
-        "tooltip-format-wifi": "{essid} ({signalStrength}%)"
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+        "on-click": "~/.config/waybar/wifi.sh --menu",
+        "on-click-right": "~/.config/waybar/wifi.sh --settings"
+    },
+
+    "custom/bluetooth": {
+        "exec": "~/.config/waybar/bluetooth.sh --status",
+        "return-type": "json",
+        "interval": 5,
+        "on-click": "~/.config/waybar/bluetooth.sh --menu",
+        "on-click-right": "~/.config/waybar/bluetooth.sh --settings"
     },
 
     "pulseaudio": {
